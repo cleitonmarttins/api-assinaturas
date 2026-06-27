@@ -1,8 +1,23 @@
 services:
 
+  api-assinaturas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-assinaturas-springboot
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/bd-assinaturas
+    networks:
+      - api-assinaturas-network
+    depends_on:
+      - postgres
+
   postgres:
     image: postgres:16
-    container_name: postgres-assinaturas
+    container_name: api-assinaturas-postgres
     restart: always
     ports:
       - "5434:5432"
@@ -13,11 +28,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - rede-assinaturas
+      - api-assinaturas-network
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin-assinaturas
+    container_name: api-assinaturas-pgadmin
     restart: always
     ports:
       - "5051:80"
@@ -29,12 +44,12 @@ services:
     depends_on:
       - postgres
     networks:
-      - rede-assinaturas
+      - api-assinaturas-network
 
 volumes:
   postgres_data:
   pgadmin_data:
 
 networks:
-  rede-assinaturas:
+  api-assinaturas-network:
     driver: bridge

@@ -1,4 +1,4 @@
-package br.com.cotiinformatica.api_assinaturas.entities;
+package br.com.cotiinformatica.api_assinaturas.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
